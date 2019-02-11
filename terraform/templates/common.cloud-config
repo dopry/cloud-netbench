@@ -1,0 +1,37 @@
+#cloud-config
+
+
+# disable non-ec2 warnings in packet.
+datasource:
+  Ec2:
+   strict_id: false
+
+# add deploy keys for git here.
+# ssh_keys:
+
+# add users and ssh keys.
+users:
+  - default
+  - name: dopry
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCEsLg/bJoFws8HvNVQ5IVCmu0ibiLoGBXMeKQ9KJ2UTRtphjsCIAv7rAwHzMIbNqhauWc5VxTrlUtIKG3Dwyys= dopry@peplat-ecdsa-key-20180223
+
+# update packages
+package_update: true
+packages:
+  - git
+  - python-pip
+  - python-setuptools
+  - python-wheel
+  - flent
+  - netperf
+  - irtt
+
+# base configuration
+runcmd:
+  - sed -i -e 's/^#PermitRootLogin.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers dopry' /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - pip install ansible

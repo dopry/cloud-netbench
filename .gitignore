@@ -1,0 +1,6 @@
+/terraform/.terraform/
+/terraform/terraform.tfstate
+/terraform/terraform.tfstate.backup
+/terraform/environment.*
+/terraform/terraform.exe
+/terraform/.terraform.tfstate.lock.info
